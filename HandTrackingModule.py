@@ -1,10 +1,8 @@
 import mediapipe as mp
 import cv2
-import time
-
 
 class handDetector():
-    def __init__(self , mode = False , maxHands = 2 , detectionCon = 0.5 , trackCon = 0.5):
+    def __init__(self , mode = False , maxHands = 2 , detectionCon = 0.75 , trackCon = 0.75):
         self.mode = mode
         self.maxHands = maxHands
         self.detectionCon = detectionCon
@@ -66,14 +64,14 @@ class handDetector():
         return fingers
 
 def main():
-    pTime = 0
-    cTime = 0
+
     cap = cv2.VideoCapture(0)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH , 600)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH,440)   
+    detector = handDetector()
     if not cap.isOpened():
         print("Error : Could not open video stream.")
         return 
-    
-    detector = handDetector()
     while True:
         success , img = cap.read()
         if not success:
@@ -85,12 +83,6 @@ def main():
         if len(lmlist) != 0:
             print(lmlist[4])
 
-        cTime = time.time()
-        fps = 1 / (cTime - pTime)
-        pTime = cTime
-
-        img = cv2.flip(img , 1)
-        cv2.putText(img , str(int(fps)), (10,70) , cv2.FONT_HERSHEY_PLAIN , 3 , (255,0,255),3)
         cv2.imshow("Image",img)
         
         if cv2.waitKey(1) & 0xFF == ord('q'):
