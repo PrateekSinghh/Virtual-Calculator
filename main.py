@@ -21,7 +21,7 @@ cap = cv2.VideoCapture(0)
 cap.set(3,1280)
 cap.set(4,720)
 
-detector = htm.handDetector(detectionCon = 0.85)
+detector = htm.handDetector(detectionCon = 0.75)
 xp , yp  = 0 ,0 
 imgCanvas = np.zeros((720 , 1280 , 3 ),np.uint8)
 
@@ -64,7 +64,7 @@ while True:
                         drawColor = (0,0,0)
                     elif 1050<x1<1200:
                         header = overlay_list[3]
-                        imgCanvas = np.zeros((720, 1280, 3), np.uint8)
+                        imgCanvas = np.zeros((720 , 1280 , 3 ),np.uint8)
 
             ## Drawing Mode
             if fingers[1] and fingers[2] == False:
@@ -73,15 +73,15 @@ while True:
                 if xp == 0 and yp == 0:
                     xp , yp = x1 , y1
 
-                cv2.line(img , (xp , yp), (x1,y1) , drawColor , 15 )
-                cv2.line(imgCanvas , (xp , yp), (x1,y1) , drawColor , 15 )
+                cv2.line(img , (xp , yp), (x1,y1) , drawColor , 10 )
+                cv2.line(imgCanvas , (xp , yp), (x1,y1) , drawColor , 10 )
 
                 if drawColor == (0,0,0):                ### Increase the size of eraser
                     cv2.line(img , (xp , yp), (x1,y1) , drawColor , 60 )
                     cv2.line(imgCanvas , (xp , yp), (x1,y1) , drawColor , 60 )
                 else:
-                    cv2.line(img , (xp , yp), (x1,y1) , drawColor , 15 )
-                    cv2.line(imgCanvas , (xp , yp), (x1,y1) , drawColor , 15 )
+                    cv2.line(img , (xp , yp), (x1,y1) , drawColor , 10 )
+                    cv2.line(imgCanvas , (xp , yp), (x1,y1) , drawColor , 10 )
 
                 xp , yp = x1 , y1
         
@@ -93,7 +93,7 @@ while True:
 
     ## setting up header
     img[0:125,0:1280] = header
-    img = cv2.addWeighted(img, 0.5, imgCanvas, 0.5, 0)
+    img = cv2.addWeighted(img, 0.6, imgCanvas, 0.4, 0)
     cv2.imshow("Virtual Calculator",img)
     cv2.imshow("Image Canvas",imgCanvas)
     if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -101,6 +101,3 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
-
-
-##https://github.com/ayush-that/Apple-Calculator-Using-Computer-Vision/blob/main/app.py

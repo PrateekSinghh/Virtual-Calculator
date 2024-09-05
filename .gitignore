@@ -1,2 +1,3 @@
 venv/
-mathematical_expression_data/
+.env
+__pycache__/
